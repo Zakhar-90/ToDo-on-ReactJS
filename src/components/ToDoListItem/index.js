@@ -1,17 +1,25 @@
 import './toDoListItem.css';
 
-const ToDoListItem = ( {label, important = false} ) => {
+const ToDoListItem = ({ label,
+                        onDeleted,
+                        onToggleImportant,
+                        onToggleDone,
+                        important, done } ) => {
 
-    const style = {
-        color: important ? '#4682b4' : '#000000',
-        fontWeight: important ? 'bold' : 'normal'
-    };
+    let classNames = 'todo-list-item';
+    if (done) {
+        classNames += ' done';
+    }
+
+    if (important) {
+        classNames += ' important';
+    }
 
     return (
-        <span className="todo-list-item">
+        <span className={classNames}>
             <span
                 className="todo-list-item-label"
-                style={style}
+                onClick={ onToggleDone }
             >
                 {label}
             </span>
@@ -19,6 +27,7 @@ const ToDoListItem = ( {label, important = false} ) => {
             <button
                 type="button"
                 className="btn btn-outline-success btn-sm float-right"
+                onClick={ onToggleImportant }
             >
                 <i className="fa fa-exclamation" />
             </button>
@@ -26,11 +35,12 @@ const ToDoListItem = ( {label, important = false} ) => {
             <button
                 type="button"
                 className="btn btn-outline-danger btn-sm float-right"
+                onClick={ onDeleted }
             >
                 <i className="fa fa-trash-o"></i>
             </button>
         </span>
     );
-};
+}
 
 export default ToDoListItem;
