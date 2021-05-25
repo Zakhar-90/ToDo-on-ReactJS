@@ -12,11 +12,12 @@ export default class App extends Component {
 
     state = {
         todoData : [
-            { label: 'Item 1', done: false, important: false, id: 1 },
-            { label: 'Item 2', done: false, important: false, id: 2 },
+            { label: 'Iitem 1', done: false, important: false, id: 1 },
+            { label: 'Ittem 2', done: false, important: false, id: 2 },
             { label: 'Item 3', done: false, important: false, id: 3 },
             { label: 'Item 4', done: false, important: false, id: 4 },
-        ]
+        ],
+        term: ''
     };
 
     onDeleted = (id) => {
@@ -79,10 +80,14 @@ export default class App extends Component {
         });
     };
 
+    onSearch = (term) => {
+        this.setState({ term });
+    };
 
     render () {
 
-        const { todoData } = this.state;
+        const { todoData, term } = this.state;
+        const visibelItems = todoData.filter((el) => el.label.toLowerCase().includes(term.toLowerCase()));
         const doneCount = todoData.filter((el) => el.done === true).length;
         const todoCount = todoData.length - doneCount;
 
@@ -92,9 +97,11 @@ export default class App extends Component {
                     toDo={todoCount}
                     done={doneCount}
                 />
-                <TopPanel />
+                <TopPanel
+                    onSearch={ this.onSearch }
+                />
                 <ToDoList
-                    todoData={todoData}
+                    todoData={visibelItems}
                     onDeleted={this.onDeleted}
                     onToggleImportant={this.onToggleImportant}
                     onToggleDone={this.onToggleDone}
