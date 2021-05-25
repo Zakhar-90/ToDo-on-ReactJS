@@ -17,7 +17,8 @@ export default class App extends Component {
             { label: 'Item 3', done: false, important: false, id: 3 },
             { label: 'Item 4', done: false, important: false, id: 4 },
         ],
-        term: ''
+        term: '',
+        filter: 'all'
     };
 
     onDeleted = (id) => {
@@ -84,10 +85,29 @@ export default class App extends Component {
         this.setState({ term });
     };
 
+    onFilter = (filter) => {
+        this.setState( {filter} );
+    };
+
+    filtration = (items, filter) => {
+        switch(filter) {
+            case 'active':
+                return items.filter((item) => !item.done);
+            case 'done':
+                return items.filter((item) => item.done);
+            default:
+                return items;
+        }
+    }
+
+    search = (items, term) => {
+        return items.filter((el) => el.label.toLowerCase().includes(term.toLowerCase()));
+    }
+
     render () {
 
-        const { todoData, term } = this.state;
-        const visibelItems = todoData.filter((el) => el.label.toLowerCase().includes(term.toLowerCase()));
+        const { todoData, term, filter } = this.state;
+        const visibelItems = this.filtration(this.search(todoData, term), filter);
         const doneCount = todoData.filter((el) => el.done === true).length;
         const todoCount = todoData.length - doneCount;
 
@@ -99,6 +119,8 @@ export default class App extends Component {
                 />
                 <TopPanel
                     onSearch={ this.onSearch }
+                    onFilter={ this.onFilter }
+                    filter={filter}
                 />
                 <ToDoList
                     todoData={visibelItems}
