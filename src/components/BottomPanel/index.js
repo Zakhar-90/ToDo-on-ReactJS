@@ -18,9 +18,9 @@ export default class BottomPanel extends Component {
 
         this.props.onAddItem(this.state.label);
 
-        // this.setState({
-        //     label: ''
-        // });
+        this.setState({
+            label: ''
+        });
     };
 
     render() {
