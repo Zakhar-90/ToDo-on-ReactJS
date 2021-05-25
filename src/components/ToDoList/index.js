@@ -1,12 +1,12 @@
 import ToDoListItem from '../ToDoListItem';
 import './toDoList.css';
 
-const ToDoList = ( { todoData } ) => {
+const ToDoList = ( { todoData, onDeleted, onToggleImportant, onToggleDone } ) => {
 
     return (
         <ul className="list-group todo-list">
             {
-                todoData.map(( {id, label, important} ) => {
+                todoData.map(( {id, label, important, done} ) => {
                     return (
                         <li
                             key={ id }
@@ -15,6 +15,10 @@ const ToDoList = ( { todoData } ) => {
                             <ToDoListItem
                                 label={label}
                                 important={important}
+                                done={done}
+                                onDeleted={ () => onDeleted(id) }
+                                onToggleImportant={ () => onToggleImportant(id) }
+                                onToggleDone={ () => onToggleDone(id) }
                             />
                         </li>
                     )
