@@ -1,25 +1,29 @@
-const ItemStatusFilter = () => {
+const ItemStatusFilter = ( { onFilter, filter } ) => {
+
+    const buttons = [
+        { name: "all", label: "All"},
+        { name: "active", label: "Active"},
+        { name: "done", label: "Done"},
+    ];
 
     return (
         <div className="btn-group">
-            <button
-                type="button"
-                className="btn btn-info"
-            >
-                All
-            </button>
-            <button
-                type="button"
-                className="btn btn-outline-secondary"
-            >
-                Active
-            </button>
-            <button
-                type="button"
-                className="btn btn-outline-secondary"
-            >
-                Done
-            </button>
+            {
+                buttons.map(( { name, label} ) => {
+                    const isActive = filter === name;
+                    const className = isActive ? 'btn-info' : 'btn-outline -second'; 
+                    return (
+                        <button
+                            key={name}
+                            type="button"
+                            className={`btn ${className}`}
+                            onClick={ () => onFilter(name) }
+                        >
+                            { label }
+                        </button>
+                    )
+                })
+            }
         </div>
     );
 };
